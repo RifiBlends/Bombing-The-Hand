@@ -4,44 +4,83 @@ using UnityEngine;
 
 public class ThrowBomb : MonoBehaviour
 {
-    int xBomb = -5;
-    bool player1Play = false;
-    bool player2Play = false;
+    int xBomb;
+    [SerializeField] bool canP1 = false;
+    [SerializeField] bool canP2 = false;
 
     [SerializeField] GameObject button1;
     [SerializeField] GameObject button2;
-    
 
-    public void JogarBomba()
+    private void Start()
     {
-        if(this.transform.position.x < 0)
+        PosicaoStartAleatorio();
+    }
+
+    private void Update()
+    {
+        CheckBombPosition();
+    }
+
+    void CheckBombPosition()
+    {
+        if (this.transform.position.x < 0)
         {
-            player1Play = true;
+            canP1 = true;
+            button1.gameObject.SetActive(true);
+
+            canP2 = false;
+            button2.gameObject.SetActive(false);
         }
         if (this.transform.position.x > 0)
         {
-            player2Play = true;
+            canP2 = true;
+            button2.gameObject.SetActive(true);
+
+            canP1 = false;
+            button1.gameObject.SetActive(false);
+        }
+    }
+
+    public void CheckPlay()
+    {
+        if (canP1)
+        {
+            TranslateBomb(5);
+            canP1 = false;
         }
 
-        if (player1Play)
+        if (canP2)
         {
-            button1.SetActive(true);
-            button2.SetActive(false);
-
-            xBomb = 5;
-
-            player1Play = false;
+            TranslateBomb(-5);
+            canP2 = false;
         }
-        if (player2Play)
-        {
-            button1.SetActive(false);
-            button2.SetActive(true);
+    }
 
+    public void TranslateBomb(int b)
+    {
+        this.transform.position = new Vector3(b, 1, 0);
+    }
+
+    void PosicaoStartAleatorio()
+    {
+        int posStart = Random.Range(-5, 5);
+
+        if (posStart < 0) //Vulgo lado esquerdo
+        {
             xBomb = -5;
-
-            player2Play = false;
+            PlayerController.canP1 = true;
+            button1.gameObject.SetActive(true);
         }
-        //xBomb = xBomb * -1; //Invertendo o valor
+        if(posStart > 0) //Vulgo lado direito
+        {
+            xBomb = 5;
+            PlayerController.canP2 = true;
+            button2.gameObject.SetActive(true);
+        }
+        if(posStart == 0)
+        {
+            PosicaoStartAleatorio();
+        }
 
         this.transform.position = new Vector3(xBomb, 1, 0);
     }

@@ -17,6 +17,13 @@ public class Timer : MonoBehaviour
             count -= Time.deltaTime;
             displayCount.text = count.ToString("f0");
         }
+
+        if (Input.GetKeyDown("r"))
+        {
+            SceneManager.LoadScene(0);
+        }
     }
+
+    
     
 }
