@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {   
+    [SerializeField] private Slider slider;
+    float sliderValor;
+    float fillSpeed = 0.1f;
     public Text displayCount;
     public float count = 60f;
 
@@ -13,17 +16,21 @@ public class Timer : MonoBehaviour
        
     }
     private void Update (){
+        //sliderValor = slider.value*100;
         if (count > 0f){
             count -= Time.deltaTime;
-            displayCount.text = count.ToString("f0");
+            AtualizaSlider (count);
         }
 
-        if (Input.GetKeyDown("r"))
+        if (Input.GetKeyDown("r")) // reseta a cena - debug
         {
             SceneManager.LoadScene(0);
         }
     }
 
-    
+    void AtualizaSlider (float atualiza){
+        atualiza = atualiza / 100;
+        slider.value = atualiza;
+    }
     
 }
