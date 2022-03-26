@@ -10,6 +10,9 @@ public class ThrowBomb : MonoBehaviour
 
     [SerializeField] GameObject button1;
     [SerializeField] GameObject button2;
+    
+
+    [SerializeField] GameManager gameManager;
 
     private void Start()
     {
@@ -61,7 +64,7 @@ public class ThrowBomb : MonoBehaviour
         this.transform.position = new Vector3(b, 1, 0);
     }
 
-    void PosicaoStartAleatorio()
+    public void PosicaoStartAleatorio()
     {
         int posStart = Random.Range(-5, 5);
 
@@ -83,5 +86,21 @@ public class ThrowBomb : MonoBehaviour
         }
 
         this.transform.position = new Vector3(xBomb, 1, 0);
+    }
+
+    public void EssaProvaVaiSerUmEstouro()
+    {
+        int player = 0;
+
+        //Checar a posição da bomba
+        if (this.transform.position.x == 5)
+            player = 2;
+        if (this.transform.position.x == -5)
+            player = 1;
+
+        //Chama uma animação
+        
+        //Tira um de vida do perdedor (Função decrementar vida)
+        gameManager.DecrementaVida(player);
     }
 }

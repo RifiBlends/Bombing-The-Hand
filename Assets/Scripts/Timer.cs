@@ -7,24 +7,24 @@ using UnityEngine.SceneManagement;
 public class Timer : MonoBehaviour
 {   
     [SerializeField] private Slider slider;
-    float sliderValor;
-    float fillSpeed = 0.1f;
     public Text displayCount;
-    public float count = 60f;
+    public float count = 10f;
+
+    [SerializeField] ThrowBomb throwBomb;
 
     private void Start (){
        
     }
     private void Update (){
         //sliderValor = slider.value*100;
-        if (count > 0f){
-            count -= Time.deltaTime;
-            AtualizaSlider (count);
-        }
 
-        if (Input.GetKeyDown("r")) // reseta a cena - debug
-        {
-            SceneManager.LoadScene(0);
+        if (count <= 0)//Chamo a função de estourar a bomba
+            throwBomb.EssaProvaVaiSerUmEstouro();
+
+        if (count > 0f)
+        {           
+            count -= Time.deltaTime;
+            AtualizaSlider(count);            
         }
     }
 
@@ -33,4 +33,8 @@ public class Timer : MonoBehaviour
         slider.value = atualiza;
     }
     
+    public void ZeraTimer()
+    {
+        count = 10f;
+    }
 }
